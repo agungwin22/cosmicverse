@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Pustaka & Artikel Sains — Cosmic Verse. Jelajahi seluruh koleksi tulisan, analisis fenomena langit, dan catatan sejarah astronomi.">
+<title>Pustaka &amp; Artikel Sains — Cosmic Verse</title>
+
+<!-- ==================== FAVICON ==================== -->
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="favicon.svg">
+<meta name="theme-color" content="#0B0D12">
+
+<!-- ==================== FONTS ==================== -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- ==================== style ==================== -->
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- ==================== STARFIELD ==================== -->
+<canvas id="starfield" aria-hidden="true"></canvas>
+
+<!-- ==================== NAVBAR ==================== -->
+<header class="navbar" id="navbar">
+  <div class="container nav-inner">
+
+    <a href="index.html" class="logo" aria-label="Cosmic Verse — Beranda">
+      <span class="logo-orb" aria-hidden="true"></span>
+      <span class="logo-text">Cosmic<span>Verse</span></span>
+    </a>
+
+    <nav class="nav-menu" id="navMenu" aria-label="Navigasi utama">
+      <a href="../" class="nav-link">Beranda</a>
+      <a href="index.html" class="nav-link active" aria-current="page">Artikel / Katalog</a>
+      <a href="index.html#kategori" class="nav-link">Kategori</a>
+      <a href="../" class="btn btn-outline nav-cta-mobile">Ke Beranda</a>
+    </nav>
+
+    <div class="nav-actions">
+      <a href="../" class="btn btn-outline nav-cta">Ke Beranda</a>
+      <button class="hamburger" id="hamburger" type="button"
+              aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="navMenu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+
+  </div>
+</header>
+
+<main>
+
+  <!-- ==================== PAGE HERO ==================== -->
+  <section class="page-hero">
+    <div class="container page-hero-inner">
+
+      <nav class="crumbs reveal" aria-label="Breadcrumb">
+        <a href="../index.html">Beranda</a>
+        <span class="sep" aria-hidden="true">/</span>
+        <span class="current">Pustaka</span>
+      </nav>
+
+      <span class="page-eyebrow reveal" style="--d:.05s">📚 Katalog Artikel</span>
+
+      <h1 class="reveal" style="--d:.1s">
+        Pustaka &amp; <span class="grad">Artikel Sains</span>
+      </h1>
+
+      <p class="reveal" style="--d:.15s">
+        Jelajahi seluruh koleksi tulisan, analisis fenomena langit, dan catatan sejarah astronomi
+        — dari skala kuantum hingga tepi alam semesta.
+      </p>
+
+      <!-- ==================== TOOLBAR ==================== -->
+      <div class="toolbar reveal" style="--d:.22s">
+
+        <!-- Search -->
+        <div class="search-wrap">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <label for="searchInput" class="sr-only">Cari artikel</label>
+          <input
+            type="search"
+            id="searchInput"
+            class="search-input"
+            placeholder="Cari artikel, topik fisika, fenomena..."
+            autocomplete="off"
+            spellcheck="false">
+          <button type="button" class="search-clear" id="searchClear" aria-label="Hapus pencarian">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true">
+              <line x1="6" y1="6" x2="18" y2="18"/>
+              <line x1="18" y1="6" x2="6" y2="18"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Filter Pills + Sort -->
+        <div class="filters">
+
+          <div class="pills" role="group" aria-label="Filter kategori">
+            <button type="button" class="pill active" data-cat="all">
+              Semua <span class="count" data-count="all">0</span>
+            </button>
+            <button type="button" class="pill" data-cat="astronomi">
+              Astronomi <span class="count" data-count="astronomi">0</span>
+            </button>
+            <button type="button" class="pill" data-cat="fisika">
+              Fisika <span class="count" data-count="fisika">0</span>
+            </button>
+            <button type="button" class="pill" data-cat="fenomena">
+              Fenomena Langit <span class="count" data-count="fenomena">0</span>
+            </button>
+            <button type="button" class="pill" data-cat="sejarah">
+              Sejarah <span class="count" data-count="sejarah">0</span>
+            </button>
+          </div>
+
+          <div class="sort-wrap">
+            <label for="sortSelect">Urutkan:</label>
+            <select id="sortSelect" class="sort-select">
+              <option value="terbaru">Terbaru</option>
+              <option value="terpopuler">Terpopuler</option>
+              <option value="dibaca">Paling Banyak Dibaca</option>
+            </select>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== HASIL & GRID ==================== -->
+  <section class="section" style="padding-top:0" aria-labelledby="hasilTitle">
+
+    <div class="container">
+
+      <div class="results-bar reveal">
+        <p class="results-count" id="resultsCount" aria-live="polite">
+          Menampilkan <strong id="shownNum">0</strong> dari <strong id="totalNum">0</strong> artikel
+        </p>
+      </div>
+
+      <h2 id="hasilTitle" class="sr-only">Daftar Artikel</h2>
+
+      <div class="article-grid" id="articleGrid">
+        <!-- Kartu artikel di-render oleh JavaScript -->
+      </div>
+
+      <!-- ==================== LOAD MORE ==================== -->
+      <div class="load-more-wrap reveal" id="loadMoreWrap">
+        <button type="button" class="btn btn-primary btn-lg" id="loadMoreBtn">
+          Muat Lebih Banyak Artikel
+          <span aria-hidden="true">↓</span>
+        </button>
+
+        <div class="load-bar" aria-hidden="true"><span id="loadBar"></span></div>
+
+        <p class="load-progress">
+          <strong id="progressShown">0</strong> / <strong id="progressTotal">0</strong> artikel termuat
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="footer">
+  <div class="container">
+
+    <div class="footer-grid">
+
+      <div class="footer-brand">
+        <a href="index.html" class="logo" aria-label="Cosmic Verse — Beranda">
+          <span class="logo-orb" aria-hidden="true"></span>
+          <span class="logo-text">Cosmic<span>Verse</span></span>
+        </a>
+        <p>
+          Ruang baca digital untuk para penjelajah langit. Menyajikan sains dengan bahasa yang jernih,
+          akurat, dan menyenangkan.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Navigasi</h4>
+        <ul>
+          <li><a href="../index.html">Beranda</a></li>
+          <li><a href="index.html">Artikel / Katalog</a></li>
+          <li><a href="index.html#kategori">Kategori</a></li>
+          <li><a href="index.html#artikel">Artikel Terbaru</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Topik</h4>
+        <ul>
+          <li><a href="#" data-jump="astronomi">Astronomi</a></li>
+          <li><a href="#" data-jump="fisika">Fisika</a></li>
+          <li><a href="#" data-jump="fenomena">Fenomena Langit</a></li>
+          <li><a href="#" data-jump="sejarah">Sejarah Sains</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Ikuti Kami</h4>
+        <div class="socials">
+          <a href="#" aria-label="Discord">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M20.317 4.369a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.291a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.009c.12.099.246.198.373.292a.077.077 0 0 1-.006.127 12.3 12.3 0 0 1-1.873.891.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.331c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+            </svg>
+          </a>
+          <a href="#" aria-label="X / Twitter">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+          </a>
+          <a href="#" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true">
+              <rect x="2.5" y="2.5" width="19" height="19" rx="5.4"/>
+              <circle cx="12" cy="12" r="4.2"/>
+              <circle cx="17.4" cy="6.6" r="1.15" fill="currentColor" stroke="none"/>
+            </svg>
+          </a>
+          <a href="#" aria-label="YouTube">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.8zM9.6 15.6V8.4l6.2 3.6z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <span>&copy; <span id="year">2026</span> Cosmic Verse. Seluruh hak cipta dilindungi.</span>
+      <span>Dibuat dengan <span class="heart" aria-hidden="true">♥</span> untuk para penjelajah langit.</span>
+    </div>
+
+  </div>
+</footer>
+
+<script type="module" src="script.js"></script>
+
+</body>
+</html>
